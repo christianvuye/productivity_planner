@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% load static %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Daily Planner{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'planner/styles.css' %}">
+    {% load static %}  <!-- Load Django's static template tag -->
+    <meta charset="UTF-8">  <!-- Specify the character encoding for the HTML document -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  <!-- Ensure proper rendering on mobile devices -->
+    <title>{% block title %}Daily Planner{% endblock %}</title>  <!-- Define a block for the page title, with a default value -->
+    <link rel="stylesheet" href="{% static 'planner/styles.css' %}">  <!-- Link to the CSS file using Django's static file handling -->
 </head>
 <body>
     <div class="container">
         {% block content %}
         <!-- Page-specific content will be injected here -->
-        {% endblock %}
+        {% endblock %}  <!-- Define a block for page-specific content -->
     </div>
 </body>
 </html>
