@@ -1,74 +1,74 @@
-{% extends 'planner/base.html' %}
+{% extends 'planner/base.html' %}  <!-- Inherit from the base template -->
 
-{% block title %}Daily Planner{% endblock %}
+{% block title %}Daily Planner{% endblock %}  <!-- Set the page title -->
 
-{% block content %}
-<form method="post">
-    {% csrf_token %}
-    <h1>{% now "F d, Y" %}</h1>
-    <p class="quote">Quality means doing it right when no one is looking. - Henry Ford</p>
+{% block content %}  <!-- Start of the content block -->
+<form method="post">  <!-- Create a form that submits data via POST method -->
+    {% csrf_token %}  <!-- Include CSRF token for security -->
+    <h1>{% now "F d, Y" %}</h1>  <!-- Display current date in "Month Day, Year" format -->
+    <p class="quote">Quality means doing it right when no one is looking. - Henry Ford</p>  <!-- Display a motivational quote -->
     
-    <div class="task-section">
+    <div class="task-section">  <!-- Start of the main task section -->
         <h3>Most Important Task of the Day</h3>
         <div class="task">
-            <input type="text" name="main_task" required>
+            <input type="text" name="main_task" required>  <!-- Input field for the main task -->
             <div class="task-tracker">
-                {% for _ in "123456" %}
-                    <div class="tracker-box"></div>
+                {% for _ in "123456" %}  <!-- Create 6 tracker boxes -->
+                    <div class="tracker-box"></div>  <!-- Individual tracker box -->
                 {% endfor %}
             </div>
         </div>
     </div>
     
-    <div class="task-section">
+    <div class="task-section">  <!-- Start of the secondary tasks section -->
         <h3>Secondary Tasks of Importance</h3>
-        {% for _ in "12" %}
+        {% for _ in "12" %}  <!-- Create 2 secondary task inputs -->
             <div class="task">
-                <input type="text" name="secondary_task_{{ forloop.counter }}">
+                <input type="text" name="secondary_task_{{ forloop.counter }}">  <!-- Input field for secondary task -->
                 <div class="task-tracker">
-                    {% for _ in "123456" %}
-                        <div class="tracker-box"></div>
+                    {% for _ in "123456" %}  <!-- Create 6 tracker boxes for each task -->
+                        <div class="tracker-box"></div>  <!-- Individual tracker box -->
                     {% endfor %}
                 </div>
             </div>
         {% endfor %}
     </div>
     
-    <div class="task-section">
+    <div class="task-section">  <!-- Start of the additional tasks section -->
         <h3>Additional Tasks</h3>
-        {% for _ in "12" %}
+        {% for _ in "12" %}  <!-- Create 2 additional task inputs -->
             <div class="task">
-                <input type="text" name="additional_task_{{ forloop.counter }}">
+                <input type="text" name="additional_task_{{ forloop.counter }}">  <!-- Input field for additional task -->
                 <div class="task-tracker">
-                    {% for _ in "123456" %}
-                        <div class="tracker-box"></div>
+                    {% for _ in "123456" %}  <!-- Create 6 tracker boxes for each task -->
+                        <div class="tracker-box"></div>  <!-- Individual tracker box -->
                     {% endfor %}
                 </div>
             </div>
         {% endfor %}
     </div>
     
-    <textarea name="notes" placeholder="Notes"></textarea>
+    <textarea name="notes" placeholder="Notes"></textarea>  <!-- Textarea for additional notes -->
     
-    <div class="footer">
+    <div class="footer">  <!-- Footer section for mood and day rating -->
         <div>
             Mood Tracker: 
-            <select name="mood">
-                {% for i in "12345" %}
-                    <option value="{{ i }}">{{ i }}</option>
+            <select name="mood">  <!-- Dropdown for mood selection -->
+                {% for i in "12345" %}  <!-- Create options 1 through 5 -->
+                    <option value="{{ i }}">{{ i }}</option>  <!-- Individual option -->
                 {% endfor %}
             </select>
         </div>
         <div>
             Rate Your Day: 
-            <select name="day_rating">
-                {% for i in "12345" %}
-                    <option value="{{ i }}">{{ i }}</option>
+            <select name="day_rating">  <!-- Dropdown for day rating -->
+                {% for i in "12345" %}  <!-- Create options 1 through 5 -->
+                    <option value="{{ i }}">{{ i }}</option>  <!-- Individual option -->
                 {% endfor %}
             </select>
         </div>
     </div>
     
-    <button type="submit">Save</button>
+    <button type="submit">Save</button>  <!-- Submit button to save the form -->
 </form>
-{% endblock %}
+{% endblock %}  <!-- End of the content block -->
