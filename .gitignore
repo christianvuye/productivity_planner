@@ -22,3 +22,14 @@ media/
 
 # Ignore the .env file
 .env
+
+# Ignore Python bytecode files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ignore the .venv folder
+.venv/
+
+# Ignore the .venv folder
+.venv/
