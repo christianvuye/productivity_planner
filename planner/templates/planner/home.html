@@ -1,9 +1,74 @@
-<!-- planner/templates/planner/home.html -->
-{% extends 'planner/base.html' %}
+{% extends 'base.html' %}
 
-{% block title %}Home - Productivity Planner{% endblock %}
+{% block title %}Daily Planner{% endblock %}
 
 {% block content %}
-<h2>Welcome to the Productivity Planner!</h2>
-<p>Stay organized, manage your tasks, and achieve your goals.</p>
+<form method="post">
+    {% csrf_token %}
+    <h1>{{ plan.date|date:"F d, Y" }}</h1>
+    <p class="quote">{{ plan.quote }}</p>
+    
+    <div class="task-section">
+        <h3>Most Important Task of the Day</h3>
+        <div class="task">
+            <input type="text" name="main_task" value="{{ plan.main_task }}" required>
+            <div class="task-tracker">
+                {% for _ in "123456" %}
+                    <div class="tracker-box"></div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="task-section">
+        <h3>Secondary Tasks of Importance</h3>
+        {% for field in "secondary_task_1,secondary_task_2"|split:"," %}
+            <div class="task">
+                <input type="text" name="{{ field }}" value="{{ plan|attr:field }}">
+                <div class="task-tracker">
+                    {% for _ in "123456" %}
+                        <div class="tracker-box"></div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+    <div class="task-section">
+        <h3>Additional Tasks</h3>
+        {% for field in "additional_task_1,additional_task_2"|split:"," %}
+            <div class="task">
+                <input type="text" name="{{ field }}" value="{{ plan|attr:field }}">
+                <div class="task-tracker">
+                    {% for _ in "123456" %}
+                        <div class="tracker-box"></div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+    <textarea name="notes" placeholder="Notes">{{ plan.notes }}</textarea>
+    
+    <div class="footer">
+        <div>
+            Mood Tracker: 
+            <select name="mood">
+                {% for i in "12345" %}
+                    <option value="{{ i }}" {% if plan.mood == i|add:"0" %}selected{% endif %}>{{ i }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            Rate Your Day: 
+            <select name="day_rating">
+                {% for i in "12345" %}
+                    <option value="{{ i }}" {% if plan.day_rating == i|add:"0" %}selected{% endif %}>{{ i }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    
+    <button type="submit">Save</button>
+</form>
 {% endblock %}
