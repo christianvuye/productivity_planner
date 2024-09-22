@@ -5,13 +5,13 @@
 {% block content %}
 <form method="post">
     {% csrf_token %}
-    <h1>{{ plan.date|date:"F d, Y" }}</h1>
-    <p class="quote">{{ plan.quote }}</p>
+    <h1>{% now "F d, Y" %}</h1>
+    <p class="quote">Quality means doing it right when no one is looking. - Henry Ford</p>
     
     <div class="task-section">
         <h3>Most Important Task of the Day</h3>
         <div class="task">
-            <input type="text" name="main_task" value="{{ plan.main_task }}" required>
+            <input type="text" name="main_task" required>
             <div class="task-tracker">
                 {% for _ in "123456" %}
                     <div class="tracker-box"></div>
@@ -22,9 +22,9 @@
     
     <div class="task-section">
         <h3>Secondary Tasks of Importance</h3>
-        {% for field in "secondary_task_1,secondary_task_2"|split:"," %}
+        {% for _ in "12" %}
             <div class="task">
-                <input type="text" name="{{ field }}" value="{{ plan|attr:field }}">
+                <input type="text" name="secondary_task_{{ forloop.counter }}">
                 <div class="task-tracker">
                     {% for _ in "123456" %}
                         <div class="tracker-box"></div>
@@ -36,9 +36,9 @@
     
     <div class="task-section">
         <h3>Additional Tasks</h3>
-        {% for field in "additional_task_1,additional_task_2"|split:"," %}
+        {% for _ in "12" %}
             <div class="task">
-                <input type="text" name="{{ field }}" value="{{ plan|attr:field }}">
+                <input type="text" name="additional_task_{{ forloop.counter }}">
                 <div class="task-tracker">
                     {% for _ in "123456" %}
                         <div class="tracker-box"></div>
@@ -48,14 +48,14 @@
         {% endfor %}
     </div>
     
-    <textarea name="notes" placeholder="Notes">{{ plan.notes }}</textarea>
+    <textarea name="notes" placeholder="Notes"></textarea>
     
     <div class="footer">
         <div>
             Mood Tracker: 
             <select name="mood">
                 {% for i in "12345" %}
-                    <option value="{{ i }}" {% if plan.mood == i|add:"0" %}selected{% endif %}>{{ i }}</option>
+                    <option value="{{ i }}">{{ i }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -63,7 +63,7 @@
             Rate Your Day: 
             <select name="day_rating">
                 {% for i in "12345" %}
-                    <option value="{{ i }}" {% if plan.day_rating == i|add:"0" %}selected{% endif %}>{{ i }}</option>
+                    <option value="{{ i }}">{{ i }}</option>
                 {% endfor %}
             </select>
         </div>
