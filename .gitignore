@@ -7,9 +7,6 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Django migrations
-*/migrations/
-
 # Database files
 *.sqlite3
 
@@ -19,3 +16,6 @@ media/
 
 # VS Code settings 
 .vscode/
+
+# Ignore the .DS_Store file
+.DS_Store
