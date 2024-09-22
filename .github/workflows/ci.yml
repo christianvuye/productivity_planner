@@ -60,3 +60,7 @@ jobs:
         POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD || 'postgres' }}
       run: |
         python manage.py test
+
+    # Force GitHub Actions to use Node.js 20 for all JavaScript actions
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE20: true
