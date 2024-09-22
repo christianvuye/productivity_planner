@@ -1,0 +1,32 @@
+<!-- planner/templates/planner/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Productivity Planner{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'planner/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Productivity Planner</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/tasks/">Tasks</a></li>
+                <li><a href="/calendar/">Calendar</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        <!-- Page-specific content goes here -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Productivity Planner</p>
+    </footer>
+</body>
+</html>
