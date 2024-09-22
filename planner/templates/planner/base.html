@@ -1,33 +1,18 @@
-<!-- planner/templates/planner/base.html -->
+<!-- base.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Productivity Planner{% endblock %}</title>
+    <title>{% block title %}Daily Planner{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'planner/styles.css' %}">
 </head>
 <body>
-    <header>
-        <h1>Productivity Planner</h1>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/tasks/">Tasks</a></li>
-                <li><a href="/calendar/">Calendar</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
+    <div class="container">
         {% block content %}
-        <!-- Page-specific content goes here -->
+        <!-- Page-specific content will be injected here -->
         {% endblock %}
-    </main>
-
-    <footer>
-        <p>&copy; 2024 Productivity Planner</p>
-    </footer>
+    </div>
 </body>
 </html>
