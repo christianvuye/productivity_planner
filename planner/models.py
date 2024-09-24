@@ -8,6 +8,14 @@ from .choices import (
     PRODUCTIVITY_CHOICES,
     IMPORTANCE_CHOICES,
     ESTIMATE_CHOICES,
+    MOOD_MIN,
+    MOOD_MAX,
+    PRODUCTIVITY_MIN,
+    PRODUCTIVITY_MAX,
+    IMPORTANCE_MIN,
+    IMPORTANCE_MAX,
+    ESTIMATE_MIN,
+    ESTIMATE_MAX,
 )
 
 
@@ -45,7 +53,7 @@ class WorkingDay(models.Model):
 
     def set_mood(self, mood: int) -> None:
         """Set the mood and save the instance."""
-        if 1 <= mood <= 5:
+        if MOOD_MIN <= mood <= MOOD_MAX:
             self.mood = mood
             self.save()
         else:
@@ -53,7 +61,7 @@ class WorkingDay(models.Model):
 
     def set_productivity_rating(self, productivity_rating: int) -> None:
         """Set the productivity rating and save the instance."""
-        if 1 <= productivity_rating <= 5:
+        if PRODUCTIVITY_MIN <= productivity_rating <= PRODUCTIVITY_MAX:
             self.productivity_rating = productivity_rating
             self.save()
         else:
@@ -102,14 +110,14 @@ class Task(models.Model):
 
     def set_importance(self, importance: int) -> None:
         """Set the importance and save the instance."""
-        if 1 <= importance <= 5:
+        if IMPORTANCE_MIN <= importance <= IMPORTANCE_MAX:
             self.importance = importance
         else:
             raise ValueError("Importance must be between 1 and 5.")
 
     def set_estimate(self, estimate: int) -> None:
         """Set the estimate and save the instance."""
-        if 1 <= estimate <= 5:
+        if ESTIMATE_MIN <= estimate <= ESTIMATE_MAX:
             self.estimate = estimate
         else:
             raise ValueError("Estimate must be between 1 and 5.")
