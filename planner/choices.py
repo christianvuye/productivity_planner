@@ -22,3 +22,12 @@ IMPORTANCE_CHOICES = [
     (2, 'Secondary tasks of importance'),
     (3, 'Additional tasks'),
 ]
+
+# Define choices for the estimate field (1 to 5 Pomodoros)
+ESTIMATE_CHOICES = [
+    (1, '1 Pomodoro'),
+    (2, '2 Pomodoros'),
+    (3, '3 Pomodoros'),
+    (4, '4 Pomodoros'),
+    (5, '5 Pomodoros'),
+]
