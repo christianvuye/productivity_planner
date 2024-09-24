@@ -1,5 +1,6 @@
 """Models for the planner application."""
 from datetime import date as Date
+from typing import Any
 from django.db import models
 from .choices import (
     MOOD_CHOICES,
@@ -16,6 +17,10 @@ class WorkingDay(models.Model):
     notes = models.TextField(blank=True, null=True)
     mood = models.IntegerField(choices=MOOD_CHOICES)
     productivity_rating = models.IntegerField(choices=PRODUCTIVITY_CHOICES)
+
+    class Meta:
+        """Metadata for the working day model."""
+        db_table = "working_day"
 
     def set_date(self, date: Date) -> None:
         """Set the date and save the instance."""
@@ -50,6 +55,11 @@ class WorkingDay(models.Model):
 
     def __str__(self) -> str:
         return f"Working Day: {self.date}"
+
+    def save(self, *args: Any, **kwargs: Any) -> None:
+        """Override save method to run validation before saving."""
+        self.full_clean()  # Validate the model instance before saving
+        super().save(*args, **kwargs)  # Call the parent save method
 
 
 class Task(models.Model):
