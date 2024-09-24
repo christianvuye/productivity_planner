@@ -74,5 +74,33 @@ class Task(models.Model):
         on_delete=models.CASCADE
     )
 
+    class Meta:
+        """Metadata for the task model."""
+        db_table = "task"
+
+    def set_task_name(self, task_name: str) -> None:
+        """Set the task name and save the instance."""
+        self.task_name = task_name
+        self.save()
+
+    def set_importance(self, importance: int) -> None:
+        """Set the importance and save the instance."""
+        if 1 <= importance <= 5:
+            self.importance = importance
+        else:
+            raise ValueError("Importance must be between 1 and 5.")
+
+    def set_estimate(self, estimate: int) -> None:
+        """Set the estimate and save the instance."""
+        if 1 <= estimate <= 5:
+            self.estimate = estimate
+        else:
+            raise ValueError("Estimate must be between 1 and 5.")
+
     def __str__(self) -> str:
         return f"Task: {self.task_name}"
+
+    def save(self, *args: Any, **kwargs: Any) -> None:
+        """Override save method to run validation before saving."""
+        self.full_clean()  # Validate the model instance before saving
+        super().save(*args, **kwargs)  # Call the parent save method
