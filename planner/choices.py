@@ -31,3 +31,9 @@ ESTIMATE_CHOICES = [
     (4, '4 Pomodoros'),
     (5, '5 Pomodoros'),
 ]
+
+# Define constants for valid ranges
+MOOD_MIN = 1
+MOOD_MAX = 5
+PRODUCTIVITY_MIN = 1
+PRODUCTIVITY_MAX = 5
