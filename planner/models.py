@@ -2,6 +2,7 @@
 from datetime import date as Date
 from typing import Any
 from django.db import models
+from django.core.exceptions import ValidationError
 from .choices import (
     MOOD_CHOICES,
     PRODUCTIVITY_CHOICES,
@@ -13,14 +14,24 @@ from .choices import (
 class WorkingDay(models.Model):
     """A working day with date, notes, mood and productivity rating."""
 
-    date = models.DateField()
+    date = models.DateField(unique=True)
     notes = models.TextField(blank=True, null=True)
     mood = models.IntegerField(choices=MOOD_CHOICES)
     productivity_rating = models.IntegerField(choices=PRODUCTIVITY_CHOICES)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Metadata for the working day model."""
         db_table = "working_day"
+        ordering = ["-date"]
+        indexes = [
+            models.Index(fields=["-date"]),
+        ]
+
+    def clean(self) -> None:
+        if self.date < Date.today():
+            raise ValidationError("Date cannot be in the past.")
 
     def set_date(self, date: Date) -> None:
         """Set the date and save the instance."""
@@ -73,10 +84,16 @@ class Task(models.Model):
         related_name='tasks',
         on_delete=models.CASCADE
     )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Metadata for the task model."""
         db_table = "task"
+        ordering = ["-importance"]
+        indexes = [
+            models.Index(fields=["-importance"]),
+        ]
 
     def set_task_name(self, task_name: str) -> None:
         """Set the task name and save the instance."""
