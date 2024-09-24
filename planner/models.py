@@ -1,4 +1,5 @@
 """Models for the planner application."""
+from datetime import date
 from django.db import models
 from .choices import (
     MOOD_CHOICES,
@@ -11,13 +12,18 @@ from .choices import (
 class WorkingDay(models.Model):
     """A working day with date, notes, mood and productivity rating."""
 
-    date = models.DateField()
+    date_value = models.DateField()
     notes = models.TextField(blank=True, null=True)
     mood = models.IntegerField(choices=MOOD_CHOICES)
     productivity_rating = models.IntegerField(choices=PRODUCTIVITY_CHOICES)
 
+    def set_date(self, date_value: date) -> None:
+        """Set the date and save the instance."""
+        self.date_value = date_value
+        self.save()
+
     def __str__(self) -> str:
-        return f"Working Day: {self.date}"
+        return f"Working Day: {self.date_value}"
 
 
 class Task(models.Model):
