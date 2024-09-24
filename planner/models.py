@@ -1,5 +1,5 @@
 """Models for the planner application."""
-from datetime import date
+from datetime import date as Date
 from django.db import models
 from .choices import (
     MOOD_CHOICES,
@@ -12,18 +12,44 @@ from .choices import (
 class WorkingDay(models.Model):
     """A working day with date, notes, mood and productivity rating."""
 
-    date_value = models.DateField()
+    date = models.DateField()
     notes = models.TextField(blank=True, null=True)
     mood = models.IntegerField(choices=MOOD_CHOICES)
     productivity_rating = models.IntegerField(choices=PRODUCTIVITY_CHOICES)
 
-    def set_date(self, date_value: date) -> None:
+    def set_date(self, date: Date) -> None:
         """Set the date and save the instance."""
-        self.date_value = date_value
+        self.date = date
         self.save()
 
+    def set_notes(self, notes: str) -> None:
+        """Set the notes and save the instance."""
+        self.notes = notes
+        self.save()
+
+    def set_mood(self, mood: int) -> None:
+        """Set the mood and save the instance."""
+        if 1 <= mood <= 5:
+            self.mood = mood
+            self.save()
+        else:
+            raise ValueError("Mood must be between 1 and 5.")
+
+    def set_productivity_rating(self, productivity_rating: int) -> None:
+        """Set the productivity rating and save the instance."""
+        if 1 <= productivity_rating <= 5:
+            self.productivity_rating = productivity_rating
+            self.save()
+        else:
+            raise ValueError("Productivity rating must be between 1 and 5.")
+
+    def add_task(self, task: 'Task') -> None:
+        """Add a task to the working day."""
+        task.working_day = self
+        task.save()
+
     def __str__(self) -> str:
-        return f"Working Day: {self.date_value}"
+        return f"Working Day: {self.date}"
 
 
 class Task(models.Model):
