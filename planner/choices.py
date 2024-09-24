@@ -15,3 +15,10 @@ PRODUCTIVITY_CHOICES = [
     (4, 'High'),
     (5, 'Very High'),
 ]
+
+# Define choices for the importance field
+IMPORTANCE_CHOICES = [
+    (1, 'Most important task of the day'),
+    (2, 'Secondary tasks of importance'),
+    (3, 'Additional tasks'),
+]
