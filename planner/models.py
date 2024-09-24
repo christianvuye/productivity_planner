@@ -21,7 +21,7 @@ class WorkingDay(models.Model):
 
 
 class Task(models.Model):
-    """Placeholder docstring for Task model."""
+    """A task with name, importance, estimate and working day."""
 
     task_name = models.CharField(max_length=255)
     importance = models.IntegerField(choices=IMPORTANCE_CHOICES)
