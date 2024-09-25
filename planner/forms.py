@@ -16,4 +16,4 @@ class TaskForm(forms.ModelForm):
     class Meta:
         """Meta options for the TaskForm."""
         model = Task
-        fields = ['task_name', 'importance', 'estimate']
+        fields = ['task_name', 'estimate']
