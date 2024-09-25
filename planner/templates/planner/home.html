@@ -7,68 +7,55 @@
     {% csrf_token %}  <!-- Include CSRF token for security -->
     <h1>{% now "F d, Y" %}</h1>  <!-- Display current date in "Month Day, Year" format -->
     <p class="quote">Quality means doing it right when no one is looking. - Henry Ford</p>  <!-- Display a motivational quote -->
+
+    <!-- Display any form validation errors for the working day form -->
+    {{ working_day_form.non_field_errors }}
     
-    <div class="task-section">  <!-- Start of the main task section -->
+    <!-- Start of the main task section -->
+    <div class="task-section">
         <h3>Most Important Task of the Day</h3>
         <div class="task">
-            <input type="text" name="main_task" required>  <!-- Input field for the main task -->
-            <div class="task-tracker">
-                {% for _ in "123456" %}  <!-- Create 6 tracker boxes -->
-                    <div class="tracker-box"></div>  <!-- Individual tracker box -->
-                {% endfor %}
-            </div>
+            {{ main_task_form.as_p }}  <!-- Render the main task form as paragraphs -->
+        </div>
+    </div>
+
+    <!-- Start of the secondary tasks section -->
+    <div class="task-section">
+        <h3>Secondary Tasks of Importance</h3>
+        <div class="task">
+            {{ secondary_task_form_1.as_p }}  <!-- Render the first secondary task form -->
+        </div>
+        <div class="task">
+            {{ secondary_task_form_2.as_p }}  <!-- Render the second secondary task form -->
         </div>
     </div>
     
-    <div class="task-section">  <!-- Start of the secondary tasks section -->
-        <h3>Secondary Tasks of Importance</h3>
-        {% for _ in "12" %}  <!-- Create 2 secondary task inputs -->
-            <div class="task">
-                <input type="text" name="secondary_task_{{ forloop.counter }}">  <!-- Input field for secondary task -->
-                <div class="task-tracker">
-                    {% for _ in "123456" %}  <!-- Create 6 tracker boxes for each task -->
-                        <div class="tracker-box"></div>  <!-- Individual tracker box -->
-                    {% endfor %}
-                </div>
-            </div>
-        {% endfor %}
-    </div>
-    
-    <div class="task-section">  <!-- Start of the additional tasks section -->
+    <!-- Start of the additional tasks section -->
+    <div class="task-section">
         <h3>Additional Tasks</h3>
-        {% for _ in "12" %}  <!-- Create 2 additional task inputs -->
-            <div class="task">
-                <input type="text" name="additional_task_{{ forloop.counter }}">  <!-- Input field for additional task -->
-                <div class="task-tracker">
-                    {% for _ in "123456" %}  <!-- Create 6 tracker boxes for each task -->
-                        <div class="tracker-box"></div>  <!-- Individual tracker box -->
-                    {% endfor %}
-                </div>
-            </div>
-        {% endfor %}
+        <div class="task">
+            {{ additional_task_form_1.as_p }}  <!-- Render the first additional task form -->
+        </div>
+        <div class="task">
+            {{ additional_task_form_2.as_p }}  <!-- Render the second additional task form -->
+        </div>
     </div>
     
-    <textarea name="notes" placeholder="Notes"></textarea>  <!-- Textarea for additional notes -->
-    
-    <div class="footer">  <!-- Footer section for mood and day rating -->
+    <!-- Notes section -->
+    <textarea name="notes" placeholder="Notes">{{ working_day_form.notes.value }}</textarea>  <!-- Textarea for additional notes -->
+
+    <!-- Footer section for mood and productivity rating -->
+    <div class="footer">
         <div>
             Mood Tracker: 
-            <select name="mood">  <!-- Dropdown for mood selection -->
-                {% for i in "12345" %}  <!-- Create options 1 through 5 -->
-                    <option value="{{ i }}">{{ i }}</option>  <!-- Individual option -->
-                {% endfor %}
-            </select>
+            {{ working_day_form.mood }}  <!-- Render the mood dropdown -->
         </div>
         <div>
             Rate Your Day: 
-            <select name="day_rating">  <!-- Dropdown for day rating -->
-                {% for i in "12345" %}  <!-- Create options 1 through 5 -->
-                    <option value="{{ i }}">{{ i }}</option>  <!-- Individual option -->
-                {% endfor %}
-            </select>
+            {{ working_day_form.productivity_rating }}  <!-- Render the day rating dropdown -->
         </div>
     </div>
     
     <button type="submit">Save</button>  <!-- Submit button to save the form -->
 </form>
-{% endblock %}  <!-- End of the content block -->
+{% endblock %}
