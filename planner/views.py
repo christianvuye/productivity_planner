@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse
 from .forms import WorkingDayForm, TaskForm
 from .models import WorkingDay
+from .choices import MOOD_AVERAGE, PRODUCTIVITY_AVERAGE
 
 
 def home(request: HttpRequest) -> HttpResponse:
@@ -14,7 +15,11 @@ def home(request: HttpRequest) -> HttpResponse:
     try:
         working_day = WorkingDay.objects.get(date=date.today())
     except WorkingDay.DoesNotExist:
-        working_day = WorkingDay.objects.create(date=date.today())
+        working_day = WorkingDay.objects.create(
+            date=date.today(),
+            mood=MOOD_AVERAGE,
+            productivity_rating=PRODUCTIVITY_AVERAGE,
+        )
 
     # Handle form submissions.
     if request.method == 'POST':
