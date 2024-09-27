@@ -11,7 +11,9 @@ def save_task(form: TaskForm, working_day: WorkingDay) -> None:
     task.save()
 
 
-def initialize_forms(request: HttpRequest, working_day: WorkingDay) -> dict:
+def initialize_forms(
+    request: HttpRequest, working_day: WorkingDay
+) -> dict[str, WorkingDayForm | TaskForm]:
     """Initialize the forms for the home page."""
     # Use request.POST for POST requests, and None for GET requests.
     form_data = request.POST if request.method == 'POST' else None
