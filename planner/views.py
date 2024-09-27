@@ -2,7 +2,6 @@
 from datetime import date
 from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse
-from .forms import WorkingDayForm, TaskForm
 from .models import WorkingDay
 from .choices import MOOD_AVERAGE, PRODUCTIVITY_AVERAGE
 from .helpers import save_task, initialize_forms
@@ -31,39 +30,25 @@ def handle_post(request: HttpRequest, working_day: WorkingDay) -> HttpResponse:
 
         return redirect('home')
 
-    return render_home_page(
-        request, **forms
-    )
+    return render_home_page(request, **forms)
 
 
 def handle_get(request: HttpRequest, working_day: WorkingDay) -> HttpResponse:
     """Handle the GET request for the home page."""
     forms = initialize_forms(request, working_day)
 
-    return render_home_page(
-        request, forms['working_day_form'], forms['main_task_form'],
-        forms['secondary_task_form_1'], forms['secondary_task_form_2'],
-        forms['additional_task_form_1'], forms['additional_task_form_2']
-    )
+    return render_home_page(request, **forms)
 
 
-def render_home_page(
-    request: HttpRequest | None,
-    working_day_form: WorkingDayForm,
-    main_task_form: TaskForm,
-    secondary_task_form_1: TaskForm,
-    secondary_task_form_2: TaskForm,
-    additional_task_form_1: TaskForm,
-    additional_task_form_2: TaskForm
-) -> HttpResponse:
+def render_home_page(request: HttpRequest, **forms) -> HttpResponse:
     """Render the home page with the given forms."""
     context = {
-        'working_day_form': working_day_form,
-        'main_task_form': main_task_form,
-        'secondary_task_form_1': secondary_task_form_1,
-        'secondary_task_form_2': secondary_task_form_2,
-        'additional_task_form_1': additional_task_form_1,
-        'additional_task_form_2': additional_task_form_2
+        'working_day_form': forms['working_day_form'],
+        'main_task_form': forms['main_task_form'],
+        'secondary_task_form_1': forms['secondary_task_form_1'],
+        'secondary_task_form_2': forms['secondary_task_form_2'],
+        'additional_task_form_1': forms['additional_task_form_1'],
+        'additional_task_form_2': forms['additional_task_form_2']
     }
 
     return render(request, 'planner/home.html', context)
