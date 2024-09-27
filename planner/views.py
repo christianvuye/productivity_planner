@@ -7,6 +7,22 @@ from .choices import MOOD_AVERAGE, PRODUCTIVITY_AVERAGE
 from .helpers import save_task, initialize_forms
 
 
+def home(request: HttpRequest) -> HttpResponse:
+    """Home page view."""
+    working_day, _ = WorkingDay.objects.get_or_create(
+        date=date.today(),
+        defaults={
+            'mood': MOOD_AVERAGE,
+            'productivity_rating': PRODUCTIVITY_AVERAGE
+        }
+    )
+
+    if request.method == 'POST':
+        return handle_post(request, working_day)
+
+    return handle_get(request, working_day)
+
+
 def handle_post(request: HttpRequest, working_day: WorkingDay) -> HttpResponse:
     """Handle the POST request for the home page."""
     forms = initialize_forms(request, working_day)
@@ -52,19 +68,3 @@ def render_home_page(request: HttpRequest, **forms) -> HttpResponse:
     }
 
     return render(request, 'planner/home.html', context)
-
-
-def home(request: HttpRequest) -> HttpResponse:
-    """Home page view."""
-    working_day, _ = WorkingDay.objects.get_or_create(
-        date=date.today(),
-        defaults={
-            'mood': MOOD_AVERAGE,
-            'productivity_rating': PRODUCTIVITY_AVERAGE
-        }
-    )
-
-    if request.method == 'POST':
-        return handle_post(request, working_day)
-
-    return handle_get(request, working_day)
