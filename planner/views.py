@@ -50,13 +50,4 @@ def handle_get(request: HttpRequest, working_day: WorkingDay) -> HttpResponse:
 
 def render_home_page(request: HttpRequest, **forms) -> HttpResponse:
     """Render the home page with the given forms."""
-    context = {
-        'working_day_form': forms['working_day_form'],
-        'main_task_form': forms['main_task_form'],
-        'secondary_task_form_1': forms['secondary_task_form_1'],
-        'secondary_task_form_2': forms['secondary_task_form_2'],
-        'additional_task_form_1': forms['additional_task_form_1'],
-        'additional_task_form_2': forms['additional_task_form_2']
-    }
-
-    return render(request, 'planner/home.html', context)
+    return render(request, 'planner/home.html', forms)
