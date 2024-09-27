@@ -13,12 +13,15 @@ def save_task(form: TaskForm, working_day: WorkingDay) -> None:
 
 def initialize_forms(request: HttpRequest, working_day: WorkingDay) -> dict:
     """Initialize the forms for the home page."""
-    working_day_form = WorkingDayForm(request.POST, instance=working_day)
-    main_task_form = TaskForm(request.POST, prefix='main_task')
-    secondary_task_form_1 = TaskForm(request.POST, prefix='secondary_task_1')
-    secondary_task_form_2 = TaskForm(request.POST, prefix='secondary_task_2')
-    additional_task_form_1 = TaskForm(request.POST, prefix='additional_task_1')
-    additional_task_form_2 = TaskForm(request.POST, prefix='additional_task_2')
+    # Use request.POST for POST requests, and None for GET requests.
+    form_data = request.POST if request.method == 'POST' else None
+
+    working_day_form = WorkingDayForm(form_data, instance=working_day)
+    main_task_form = TaskForm(form_data, prefix='main_task')
+    secondary_task_form_1 = TaskForm(form_data, prefix='secondary_task_1')
+    secondary_task_form_2 = TaskForm(form_data, prefix='secondary_task_2')
+    additional_task_form_1 = TaskForm(form_data, prefix='additional_task_1')
+    additional_task_form_2 = TaskForm(form_data, prefix='additional_task_2')
     return {
         'working_day_form': working_day_form,
         'main_task_form': main_task_form,
