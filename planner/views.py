@@ -3,7 +3,7 @@ from datetime import date
 from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse
 from .models import WorkingDay
-from .choices import MOOD_AVERAGE, PRODUCTIVITY_AVERAGE
+from .choices import MOOD_AVERAGE, PRODUCTIVITY_AVERAGE, TASK_FORM_KEYS
 from .helpers import save_task, initialize_forms
 
 
@@ -34,14 +34,7 @@ def handle_post(request: HttpRequest, working_day: WorkingDay) -> HttpResponse:
         forms['working_day_form'].save()
 
         # Save tasks
-        task_forms = [
-            'main_task_form',
-            'secondary_task_form_1',
-            'secondary_task_form_2',
-            'additional_task_form_1',
-            'additional_task_form_2'
-        ]
-        for form_key in task_forms:
+        for form_key in TASK_FORM_KEYS:
             save_task(forms[form_key], working_day)
 
         return redirect('home')
