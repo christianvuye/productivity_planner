@@ -5,97 +5,94 @@ from django.http import HttpRequest, HttpResponse
 from .forms import WorkingDayForm, TaskForm
 from .models import WorkingDay
 from .choices import MOOD_AVERAGE, PRODUCTIVITY_AVERAGE
+from .helpers import save_task
 
 
-def home(request: HttpRequest) -> HttpResponse:
-    """Render the home page and handle form submissions."""
+def handle_post(request: HttpRequest, working_day: WorkingDay) -> HttpResponse:
+    """Handle the POST request for the home page."""
+    working_day_form = WorkingDayForm(request.POST, instance=working_day)
+    main_task_form = TaskForm(request.POST, prefix='main_task')
+    secondary_task_form_1 = TaskForm(request.POST, prefix='secondary_task_1')
+    secondary_task_form_2 = TaskForm(request.POST, prefix='secondary_task_2')
+    additional_task_form_1 = TaskForm(request.POST, prefix='additional_task_1')
+    additional_task_form_2 = TaskForm(request.POST, prefix='additional_task_2')
 
-    # Try to get today's working day, or create one if it does not exist.
-    # pylint: disable=E1101
-    try:
-        working_day = WorkingDay.objects.get(date=date.today())
-    except WorkingDay.DoesNotExist:
-        working_day = WorkingDay.objects.create(
-            date=date.today(),
-            mood=MOOD_AVERAGE,
-            productivity_rating=PRODUCTIVITY_AVERAGE,
-        )
+    if working_day_form.is_valid():
+        working_day_form.save()
 
-    # Handle form submissions.
-    if request.method == 'POST':
-        working_day_form = WorkingDayForm(request.POST, instance=working_day)
+        if main_task_form.is_valid():
+            save_task(main_task_form, working_day)
 
-        # Main task form.
-        main_task_form = TaskForm(request.POST, prefix='main_task')
+        if secondary_task_form_1.is_valid():
+            save_task(secondary_task_form_1, working_day)
 
-        # Secondary tasks form.
-        secondary_task_form_1 = TaskForm(
-            request.POST, prefix='secondary_task_1'
-        )
-        secondary_task_form_2 = TaskForm(
-            request.POST, prefix='secondary_task_2'
-        )
+        if secondary_task_form_2.is_valid():
+            save_task(secondary_task_form_2, working_day)
 
-        # Additional tasks form.
-        additional_task_form_1 = TaskForm(
-            request.POST, prefix='additional_task_1'
-        )
-        additional_task_form_2 = TaskForm(
-            request.POST, prefix='additional_task_2'
-        )
+        if additional_task_form_1.is_valid():
+            save_task(additional_task_form_1, working_day)
 
-        # Check if the working day and main task forms are valid.
-        # Working day form and main task form are required.
-        # Secondary and additional task forms are optional.
-        if working_day_form.is_valid() and main_task_form.is_valid():
-            working_day = working_day_form.save()
-            main_task = main_task_form.save(commit=False)
-            main_task.working_day = working_day
-            main_task.save()
+        if additional_task_form_2.is_valid():
+            save_task(additional_task_form_2, working_day)
 
-            # Save secondary tasks.
-            if secondary_task_form_1.is_valid():
-                secondary_task_1 = secondary_task_form_1.save(commit=False)
-                secondary_task_1.working_day = working_day
-                secondary_task_1.save()
-
-            if secondary_task_form_2.is_valid():
-                secondary_task_2 = secondary_task_form_2.save(commit=False)
-                secondary_task_2.working_day = working_day
-                secondary_task_2.save()
-
-            # Save additional tasks.
-            if additional_task_form_1.is_valid():
-                additional_task_1 = additional_task_form_1.save(commit=False)
-                additional_task_1.working_day = working_day
-                additional_task_1.save()
-
-            if additional_task_form_2.is_valid():
-                additional_task_2 = additional_task_form_2.save(commit=False)
-                additional_task_2.working_day = working_day
-                additional_task_2.save()
-
-        # Redirect to the home page if successful and to prevent resubmission.
-        # If not valid, render the page again with the error messages.
         return redirect('home')
 
-    # Handle GET requests when the page is loaded initially.
-    else:
-        # Populate the forms with existing data or empty forms.
-        working_day_form = WorkingDayForm(instance=working_day)
-        main_task_form = TaskForm(prefix='main_task')
-        secondary_task_form_1 = TaskForm(prefix='secondary_task_1')
-        secondary_task_form_2 = TaskForm(prefix='secondary_task_2')
-        additional_task_form_1 = TaskForm(prefix='additional_task_1')
-        additional_task_form_2 = TaskForm(prefix='additional_task_2')
+    return render_home_page(
+        request, working_day_form, main_task_form,
+        secondary_task_form_1, secondary_task_form_2,
+        additional_task_form_1, additional_task_form_2
+    )
 
+
+def handle_get(request: HttpRequest, working_day: WorkingDay) -> HttpResponse:
+    """Handle the GET request for the home page."""
+    working_day_form = WorkingDayForm(request.POST, instance=working_day)
+    main_task_form = TaskForm(request.POST, prefix='main_task')
+    secondary_task_form_1 = TaskForm(request.POST, prefix='secondary_task_1')
+    secondary_task_form_2 = TaskForm(request.POST, prefix='secondary_task_2')
+    additional_task_form_1 = TaskForm(request.POST, prefix='additional_task_1')
+    additional_task_form_2 = TaskForm(request.POST, prefix='additional_task_2')
+
+    return render_home_page(
+        request, working_day_form, main_task_form,
+        secondary_task_form_1, secondary_task_form_2,
+        additional_task_form_1, additional_task_form_2
+    )
+
+
+def render_home_page(
+    request: HttpRequest | None,
+    working_day_form: WorkingDayForm,
+    main_task_form: TaskForm,
+    secondary_task_form_1: TaskForm,
+    secondary_task_form_2: TaskForm,
+    additional_task_form_1: TaskForm,
+    additional_task_form_2: TaskForm
+) -> HttpResponse:
+    """Render the home page with the given forms."""
     context = {
         'working_day_form': working_day_form,
         'main_task_form': main_task_form,
         'secondary_task_form_1': secondary_task_form_1,
         'secondary_task_form_2': secondary_task_form_2,
         'additional_task_form_1': additional_task_form_1,
-        'additional_task_form_2': additional_task_form_2,
+        'additional_task_form_2': additional_task_form_2
     }
 
     return render(request, 'planner/home.html', context)
+
+
+def home(request: HttpRequest) -> HttpResponse:
+    """Home page view."""
+    working_day, _ = WorkingDay.objects.get_or_create(
+        date=date.today(),
+        defaults={
+            'mood': MOOD_AVERAGE,
+            'productivity_rating': PRODUCTIVITY_AVERAGE
+        }
+    )
+
+    if request.method == 'POST':
+        return handle_post(request, working_day)
+
+    return handle_get(request, working_day)
