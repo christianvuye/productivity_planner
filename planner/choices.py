@@ -43,3 +43,12 @@ IMPORTANCE_MIN = 1
 IMPORTANCE_MAX = 5
 ESTIMATE_MIN = 1
 ESTIMATE_MAX = 5
+
+# Define constants for task forms
+TASK_FORM_KEYS = [
+    'main_task_form',
+    'secondary_task_form_1',
+    'secondary_task_form_2',
+    'additional_task_form_1',
+    'additional_task_form_2'
+]
