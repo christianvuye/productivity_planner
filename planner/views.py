@@ -29,8 +29,7 @@ def handle_post(request: HttpRequest, working_day: WorkingDay) -> HttpResponse:
 
     # Check that all forms are valid before saving anything
     if (forms['working_day_form'].is_valid() and
-            all(form.is_valid() for key, form in forms.items()
-                if 'task_form' in key)):
+            all(forms[form_key].is_valid() for form_key in TASK_FORM_KEYS)):
         forms['working_day_form'].save()
 
         # Save tasks
