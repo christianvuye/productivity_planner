@@ -12,30 +12,27 @@ def handle_post(request: HttpRequest, working_day: WorkingDay) -> HttpResponse:
     """Handle the POST request for the home page."""
     forms = initialize_forms(request, working_day)
 
-    if forms['working_day_form'].is_valid():
+    # Check that all forms are valid before saving anything
+    if (forms['working_day_form'].is_valid() and
+            all(form.is_valid() for key, form in forms.items()
+                if 'task_form' in key)):
         forms['working_day_form'].save()
 
-        if forms['main_task_form'].is_valid():
-            save_task(forms['main_task_form'], working_day)
-
-        if forms['secondary_task_form_1'].is_valid():
-            save_task(forms['secondary_task_form_1'], working_day)
-
-        if forms['secondary_task_form_2'].is_valid():
-            save_task(forms['secondary_task_form_2'], working_day)
-
-        if forms['additional_task_form_1'].is_valid():
-            save_task(forms['additional_task_form_1'], working_day)
-
-        if forms['additional_task_form_2'].is_valid():
-            save_task(forms['additional_task_form_2'], working_day)
+        # Save tasks
+        task_forms = [
+            'main_task_form',
+            'secondary_task_form_1',
+            'secondary_task_form_2',
+            'additional_task_form_1',
+            'additional_task_form_2'
+        ]
+        for form_key in task_forms:
+            save_task(forms[form_key], working_day)
 
         return redirect('home')
 
     return render_home_page(
-        request, forms['working_day_form'], forms['main_task_form'],
-        forms['secondary_task_form_1'], forms['secondary_task_form_2'],
-        forms['additional_task_form_1'], forms['additional_task_form_2']
+        request, **forms
     )
 
 
