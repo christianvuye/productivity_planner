@@ -1,3 +1,26 @@
+<!--
+    Home Template for Daily Planner Application
+
+    This template renders the main daily planning interface, including:
+    - Current date display
+    - Motivational quote
+    - Task management forms:
+        - Most Important Task section
+        - Secondary Tasks section (2 tasks)
+        - Additional Tasks section (2 tasks)
+    - Notes section
+    - Daily tracking elements:
+        - Mood tracker
+        - Productivity rating
+    
+    Extends: planner/base.html
+    Forms used: 
+    - working_day_form: Contains notes, mood, and productivity fields
+    - main_task_form: For the primary task
+    - secondary_task_form_1, secondary_task_form_2: For secondary tasks
+    - additional_task_form_1, additional_task_form_2: For additional tasks
+-->
+
 {% extends 'planner/base.html' %}  <!-- Inherit from the base template -->
 
 {% block title %}Daily Planner{% endblock %}  <!-- Set the page title -->
