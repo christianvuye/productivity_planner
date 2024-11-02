@@ -1,3 +1,19 @@
+"""
+This module defines the choice constants and valid ranges used throughout the planner application.
+
+It contains predefined choices for:
+- Mood ratings (1-5 scale)
+- Productivity ratings (1-5 scale)
+- Task importance levels (1-3 scale)
+- Time estimates in Pomodoros (1-5 scale)
+
+It also defines minimum, maximum, and average values for these scales,
+as well as constants for task form identification.
+
+These constants are used to maintain consistency in form fields, models,
+and validation throughout the application.
+"""
+
 # Define choices for the mood field
 MOOD_CHOICES = [
     (1, 'Very Bad'),
