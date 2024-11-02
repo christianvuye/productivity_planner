@@ -1,5 +1,6 @@
 """
-This module defines the choice constants and valid ranges used throughout the planner application.
+This module defines the choice constants and valid ranges used
+throughout the planner application.
 
 It contains predefined choices for:
 - Mood ratings (1-5 scale)
