@@ -1,3 +1,15 @@
+/* 
+ * Planner Application Styles
+ * 
+ * This stylesheet contains the core styling for the planner application, including:
+ * - Basic layout and typography
+ * - Task list and task item styling
+ * - Task tracker components
+ * - Form elements (textareas, inputs)
+ * - Button styles and hover states
+ * - Footer positioning
+ */
+
 body {
     font-family: Arial, sans-serif;
     max-width: 800px;
