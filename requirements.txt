@@ -6,7 +6,7 @@ django-stubs==5.1.0
 django-stubs-ext==5.1.1
 isort==5.13.2
 mccabe==0.7.0
-mypy==1.11.2
+mypy==1.13.0
 mypy-extensions==1.0.0
 platformdirs==4.3.6
 psycopg2-binary==2.9.10
