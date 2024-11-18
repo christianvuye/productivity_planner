@@ -15,7 +15,7 @@ pylint-django==2.6.1
 pylint-plugin-utils==0.8.2
 python-decouple==3.8
 sqlparse==0.5.1
-tomli==2.0.2
+tomli==2.1.0
 tomlkit==0.13.2
 types-PyYAML==6.0.12.20240917
 typing_extensions==4.12.2
