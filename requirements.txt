@@ -17,5 +17,5 @@ python-decouple==3.8
 sqlparse==0.5.1
 tomli==2.0.2
 tomlkit==0.13.2
-types-PyYAML==6.0.12.20240917
+types-PyYAML==6.0.12.20241230
 typing_extensions==4.12.2
