@@ -14,7 +14,7 @@ const PageContent = styled.div`
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 0.25rem;
   position: relative;
   z-index: 2;
   
@@ -35,8 +35,8 @@ const PageContent = styled.div`
 `;
 
 const DateHeaderLeft = styled.div`
-  margin-bottom: 2rem;
-  padding-bottom: 1.5rem;
+  margin-bottom: 0;
+  padding-bottom: 0;
 `;
 
 const DayName = styled.h1`
@@ -77,7 +77,7 @@ const HeaderTextArea = styled.textarea`
   font-size: 1.2rem;
   color: #4a3d2a;
   font-family: 'Crimson Text', serif;
-  margin-top: 1rem;
+  margin-top: 0.3rem;
   resize: none;
   min-height: 3rem;
   overflow: hidden;
@@ -115,7 +115,7 @@ const ContentSection = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: 1.5rem;
 `;
 
 const LeftPage: React.FC = () => {

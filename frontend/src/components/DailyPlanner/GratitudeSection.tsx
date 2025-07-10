@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const Section = styled.div`
-  margin-bottom: 1.5rem;
+  margin-bottom: 0;
+  margin-top: 0;
+  padding-bottom: 0;
 `;
 
 const Label = styled.label`
   display: block;
   font-size: 1.3rem;
   color: #6d5a3f;
-  margin-bottom: 1rem;
+  margin-bottom: 0.3rem;
   font-weight: 500;
   font-family: 'Crimson Text', serif;
   letter-spacing: 0.5px;
