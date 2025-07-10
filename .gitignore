@@ -31,5 +31,5 @@ __pycache__/
 # Ignore the .venv folder
 .venv/
 
-# Ignore the .venv folder
-.venv/
+# Ignore temporary image folders
+temp images/
