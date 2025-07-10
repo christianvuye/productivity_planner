@@ -8,15 +8,19 @@ const Section = styled.div`
 `;
 
 const ReflectionItem = styled.div`
-  margin-bottom: 0;
+  margin-bottom: 1rem;
   padding-bottom: 0;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
 `;
 
 const Label = styled.label`
   display: block;
   font-size: 1.3rem;
   color: #6d5a3f;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.1rem;
   font-weight: 500;
   font-family: 'Crimson Text', serif;
   letter-spacing: 0.5px;

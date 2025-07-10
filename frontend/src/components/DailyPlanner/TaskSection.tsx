@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const Section = styled.div`
-  margin-bottom: 2rem;
+  margin-bottom: 0;
 `;
 
 const SectionTitle = styled.h3`
@@ -24,6 +24,10 @@ const SectionTitle = styled.h3`
 const TaskItem = styled.div`
   margin-bottom: 1.5rem;
   padding: 0.5rem 0;
+  
+  &:last-child {
+    margin-bottom: 0.5rem;
+  }
 `;
 
 const TaskInputRow = styled.div`
