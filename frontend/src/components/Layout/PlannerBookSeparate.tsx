@@ -149,18 +149,25 @@ const NavigationZone = styled.div<{ position: 'left' | 'right' }>`
   }
 `;
 
-const KeyboardHint = styled.div`
+const NavigationArrow = styled.div`
   position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.6rem;
-  color: rgba(139, 115, 85, 0.4);
-  text-align: center;
+  bottom: 30px;
+  right: 50px;
+  font-size: 2rem;
+  color: rgba(139, 115, 85, 0.6);
   z-index: 25;
+  cursor: pointer;
+  padding: 10px;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    color: rgba(139, 115, 85, 0.8);
+    transform: scale(1.1);
+  }
   
   @media (max-width: 768px) {
-    display: none;
+    font-size: 1.5rem;
+    right: 30px;
   }
 `;
 
@@ -225,13 +232,13 @@ const PlannerBookSeparate: React.FC = () => {
             <NavigationZone position="left" onClick={goToPrevPage} />
           )}
           
-          {/* Subtle keyboard hint */}
-          <KeyboardHint>
+          {/* Navigation Arrow */}
+          <NavigationArrow onClick={currentPage === 'left' ? goToNextPage : goToPrevPage}>
             {currentPage === 'left' 
-              ? 'Press → or Space to turn page' 
-              : 'Press ← to go back'
+              ? '→' 
+              : '←'
             }
-          </KeyboardHint>
+          </NavigationArrow>
         </Page>
       </PageWrapper>
     </BookContainer>

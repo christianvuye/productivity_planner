@@ -22,11 +22,15 @@ const SectionTitle = styled.h3`
 `;
 
 const TaskItem = styled.div`
+  margin-bottom: 1.5rem;
+  padding: 0.5rem 0;
+`;
+
+const TaskInputRow = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 1.5rem;
   gap: 1rem;
-  padding: 0.5rem 0;
+  margin-bottom: 0.5rem;
 `;
 
 const TaskNumber = styled.span`
@@ -62,26 +66,48 @@ const TaskInput = styled.input`
   }
 `;
 
-const PriorityControls = styled.div`
+const PomodoroControls = styled.div`
   display: flex;
-  gap: 0.25rem;
+  gap: 2rem;
   align-items: center;
+  margin-left: 2.5rem;
+  margin-top: 0.3rem;
 `;
 
-const PriorityCircle = styled.button<{ filled?: boolean; type?: 'urgency' | 'energy' }>`
+const PomodoroSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+`;
+
+const PomodoroLabel = styled.span`
+  font-size: 0.85rem;
+  color: #8b7355;
+  font-weight: 500;
+  font-family: 'Crimson Text', serif;
+  margin-right: 0.3rem;
+`;
+
+const PomodoroCircle = styled.button<{ filled?: boolean; type?: 'estimate' | 'actual' }>`
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  border: 2px solid ${props => props.type === 'energy' ? '#8b7355' : '#d4af37'};
+  border: 1.5px solid ${props => props.type === 'actual' ? '#8b7355' : '#d4af37'};
   background: ${props => props.filled 
-    ? (props.type === 'energy' ? '#8b7355' : '#d4af37')
+    ? (props.type === 'actual' ? '#8b7355' : '#d4af37')
     : 'transparent'
   };
   cursor: pointer;
   transition: all 0.3s ease;
+  font-size: 0.7rem;
+  font-weight: bold;
+  color: ${props => props.filled ? 'white' : (props.type === 'actual' ? '#8b7355' : '#d4af37')};
+  display: flex;
+  align-items: center;
+  justify-content: center;
   
   &:hover {
-    transform: scale(1.2);
+    transform: scale(1.1);
     box-shadow: 0 2px 4px rgba(139, 115, 85, 0.2);
   }
   
@@ -90,102 +116,79 @@ const PriorityCircle = styled.button<{ filled?: boolean; type?: 'urgency' | 'ene
   }
 `;
 
-const ControlLabel = styled.span`
-  font-size: 0.9rem;
-  color: #8b7355;
-  margin: 0 0.5rem;
-  font-weight: 500;
-  font-family: 'Crimson Text', serif;
-`;
-
-const CheckboxContainer = styled.div`
-  display: flex;
-  gap: 0.5rem;
-`;
-
-const Checkbox = styled.input`
-  width: 18px;
-  height: 18px;
-  accent-color: #8b7355;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-  
-  &:hover {
-    transform: scale(1.1);
-  }
-`;
-
-const CheckboxLabel = styled.label`
-  font-size: 0.9rem;
-  color: #8b7355;
-  font-family: 'Crimson Text', serif;
-  cursor: pointer;
-  user-select: none;
-`;
-
 interface TaskItemProps {
   number?: string;
   placeholder: string;
-  showPriority?: boolean;
+  showPomodoro?: boolean;
 }
 
-const TaskItemComponent: React.FC<TaskItemProps> = ({ number, placeholder, showPriority = false }) => {
+const TaskItemComponent: React.FC<TaskItemProps> = ({ number, placeholder, showPomodoro = false }) => {
   const [task, setTask] = useState('');
-  const [urgency, setUrgency] = useState(0);
-  const [energy, setEnergy] = useState(0);
-  const [completed, setCompleted] = useState(false);
-  const [actual, setActual] = useState(false);
+  const [estimate, setEstimate] = useState(0);
+  const [actual, setActual] = useState(0);
+
+  const handleEstimateClick = (level: number) => {
+    if (estimate === level) {
+      // If clicking the same level, decrease by 1
+      setEstimate(Math.max(0, level - 1));
+    } else {
+      // Set to the clicked level
+      setEstimate(level);
+    }
+  };
+
+  const handleActualClick = (level: number) => {
+    if (actual === level) {
+      // If clicking the same level, decrease by 1
+      setActual(Math.max(0, level - 1));
+    } else {
+      // Set to the clicked level
+      setActual(level);
+    }
+  };
 
   return (
     <TaskItem>
-      {number && <TaskNumber>{number}.</TaskNumber>}
-      <TaskInput
-        value={task}
-        onChange={(e) => setTask(e.target.value)}
-        placeholder={placeholder}
-      />
+      <TaskInputRow>
+        {number && <TaskNumber>{number}.</TaskNumber>}
+        <TaskInput
+          value={task}
+          onChange={(e) => setTask(e.target.value)}
+          placeholder={placeholder}
+        />
+      </TaskInputRow>
       
-      {showPriority && (
-        <PriorityControls>
-          <ControlLabel>Urgency</ControlLabel>
-          {[1, 2, 3, 4, 5].map(level => (
-            <PriorityCircle
-              key={level}
-              type="urgency"
-              filled={level <= urgency}
-              onClick={() => setUrgency(level)}
-            />
-          ))}
+      {showPomodoro && (
+        <PomodoroControls>
+          <PomodoroSection>
+            <PomodoroLabel>Est:</PomodoroLabel>
+            {[1, 2, 3, 4, 5].map(level => (
+              <PomodoroCircle
+                key={level}
+                type="estimate"
+                filled={level <= estimate}
+                onClick={() => handleEstimateClick(level)}
+              >
+                {level}
+              </PomodoroCircle>
+            ))}
+          </PomodoroSection>
           
-          <ControlLabel>Energy</ControlLabel>
-          {[1, 2, 3, 4, 5].map(level => (
-            <PriorityCircle
-              key={level}
-              type="energy"
-              filled={level <= energy}
-              onClick={() => setEnergy(level)}
-            />
-          ))}
-        </PriorityControls>
+          <PomodoroSection>
+            <PomodoroLabel>Actual:</PomodoroLabel>
+            {[1, 2, 3, 4, 5].map(level => (
+              <PomodoroCircle
+                key={level}
+                type="actual"
+                filled={level <= actual}
+                onClick={() => handleActualClick(level)}
+              >
+                {level}
+              </PomodoroCircle>
+            ))}
+          </PomodoroSection>
+        </PomodoroControls>
       )}
-      
-      <CheckboxContainer>
-        <Checkbox
-          type="checkbox"
-          id={`completed-${number}`}
-          checked={completed}
-          onChange={(e) => setCompleted(e.target.checked)}
-        />
-        <CheckboxLabel htmlFor={`completed-${number}`}>Done</CheckboxLabel>
-        
-        <Checkbox
-          type="checkbox"
-          id={`actual-${number}`}
-          checked={actual}
-          onChange={(e) => setActual(e.target.checked)}
-        />
-        <CheckboxLabel htmlFor={`actual-${number}`}>Actual</CheckboxLabel>
-      </CheckboxContainer>
     </TaskItem>
   );
 };
@@ -197,27 +200,31 @@ const TaskSection: React.FC = () => {
       <TaskItemComponent 
         number="1" 
         placeholder="What's the one thing that will make today great?"
-        showPriority={true}
+        showPomodoro={true}
       />
       
       <SectionTitle>Secondary Tasks of Importance</SectionTitle>
       <TaskItemComponent 
         number="2" 
         placeholder="Important task that supports your main goal"
+        showPomodoro={true}
       />
       <TaskItemComponent 
         number="3" 
         placeholder="Another important task"
+        showPomodoro={true}
       />
       
       <SectionTitle>Additional Tasks</SectionTitle>
       <TaskItemComponent 
         number="4" 
         placeholder="Additional task if time permits"
+        showPomodoro={true}
       />
       <TaskItemComponent 
         number="5" 
         placeholder="Another additional task"
+        showPomodoro={true}
       />
     </Section>
   );
