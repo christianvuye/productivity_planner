@@ -8,7 +8,7 @@ const Section = styled.div`
 const SectionTitle = styled.h3`
   font-size: 1.1rem;
   color: #6d5a3f;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.3rem;
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: 600;

@@ -115,7 +115,7 @@ const ContentSection = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 0.25rem;
 `;
 
 const LeftPage: React.FC = () => {
